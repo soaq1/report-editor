@@ -325,6 +325,36 @@ body {
   margin: 0;
 }
 
+/* report syntax */
+
+.ProseMirror .unit,
+.ProseMirror .variable {
+  font-family: 'Times New Roman', Times, serif;
+}
+
+.ProseMirror .unit {
+  font-style: normal;
+}
+
+.ProseMirror .variable {
+  font-style: italic;
+}
+
+.ProseMirror .math-block {
+  margin: 6pt 0 10pt;
+  text-align: center;
+}
+
+.ProseMirror .math-block .katex-display {
+  margin: 0;
+}
+
+.ProseMirror .math-inline.ProseMirror-selectednode,
+.ProseMirror .math-block.ProseMirror-selectednode {
+  border-radius: 4px;
+  background: var(--accent-soft);
+}
+
 .ProseMirror p.is-editor-empty:first-child::before {
   content: attr(data-placeholder);
   float: left;
@@ -485,6 +515,31 @@ body {
   gap: 6px;
 }
 
+.syntax-list {
+  margin: 0;
+}
+
+.syntax-list dt {
+  margin-top: 8px;
+}
+
+.syntax-list dt:first-child {
+  margin-top: 0;
+}
+
+.syntax-list dd {
+  margin: 2px 0 0;
+  color: var(--ui-muted);
+  font-size: 12px;
+}
+
+.syntax-list code {
+  padding: 1px 5px;
+  border-radius: 4px;
+  background: #eceef2;
+  font: 12px ui-monospace, Menlo, Consolas, monospace;
+}
+
 .stats,
 .key-list {
   display: grid;
@@ -566,6 +621,10 @@ kbd {
 
   .ProseMirror {
     caret-color: transparent;
+  }
+
+  .ProseMirror .ProseMirror-selectednode {
+    background: none !important;
   }
 
   .ProseMirror p.is-editor-empty:first-child::before {

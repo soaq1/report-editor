@@ -90,6 +90,8 @@ const editor = createEditor({
   onTransaction: () => ui?.sync(),
 })
 
+if (import.meta.env.DEV) window.editor = editor
+
 ui = bindUi({
   getEditor: () => editor,
   actions: {

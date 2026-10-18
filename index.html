@@ -98,7 +98,7 @@
         <div class="insp-tabs" role="tablist">
           <button class="insp-tab" data-tab="format" role="tab">서식</button>
           <button class="insp-tab" data-tab="document" role="tab">문서</button>
-          <button class="insp-tab" data-tab="keys" role="tab">단축키</button>
+          <button class="insp-tab" data-tab="keys" role="tab">문법·단축키</button>
         </div>
 
         <div class="insp-pane" data-pane="format">
@@ -191,6 +191,24 @@
 
         <div class="insp-pane" data-pane="keys">
           <section class="insp-section">
+            <h3>보고서 문법</h3>
+            <dl class="syntax-list">
+              <dt><code>[[[1. 실험 목표</code> 다음 Enter</dt>
+              <dd>대주제</dd>
+              <dt><code>[[3.1 옴의 법칙</code> 다음 Enter</dt>
+              <dd>소주제</dd>
+              <dt><code>^^87V^^</code></dt>
+              <dd>단위 — Times New Roman, 87 V</dd>
+              <dt><code>~~V~~</code></dt>
+              <dd>변수 — Times New Roman 기울임</dd>
+              <dt><code>$$V = IR$$</code></dt>
+              <dd>LaTeX 수식 — 한 줄에 혼자 쓰면 가운데 수식</dd>
+              <dt>수식 바로 뒤에서 Backspace</dt>
+              <dd>수식을 다시 글자로 풀어서 고치기</dd>
+            </dl>
+          </section>
+          <section class="insp-section">
+            <h3>단축키</h3>
             <dl id="key-list" class="key-list"></dl>
           </section>
         </div>

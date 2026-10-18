@@ -5,7 +5,9 @@ import TextAlign from '@tiptap/extension-text-align'
 import Subscript from '@tiptap/extension-subscript'
 import Superscript from '@tiptap/extension-superscript'
 import { CharacterCount, Placeholder } from '@tiptap/extensions'
+import Strike from '@tiptap/extension-strike'
 import { Pagination } from './pagination.js'
+import { MathBlock, MathInline, ReportSyntax, Unit, Variable } from './syntax.js'
 import { ParagraphLineHeight } from './line-height.js'
 
 export function createEditor({ element, content, getGeometry, onLayout, onUpdate, onTransaction }) {
@@ -22,7 +24,15 @@ export function createEditor({ element, content, getGeometry, onLayout, onUpdate
         link: false,
         // Word and Pages don't keep a spare empty paragraph at the end.
         trailingNode: false,
+        // ~~text~~ is the variable syntax here, not strikethrough.
+        strike: false,
       }),
+      Strike.extend({ addInputRules: () => [], addPasteRules: () => [] }),
+      Unit,
+      Variable,
+      MathInline,
+      MathBlock,
+      ReportSyntax,
       TextStyleKit.configure({ lineHeight: false, backgroundColor: false }),
       TextAlign.configure({ types: ['heading', 'paragraph'] }),
       Subscript,
