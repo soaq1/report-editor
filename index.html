@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>보고서 편집기</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect x='6' y='3' width='20' height='26' rx='2' fill='%232f6fde'/><rect x='10' y='9' width='12' height='2' fill='white'/><rect x='10' y='14' width='12' height='2' fill='white'/><rect x='10' y='19' width='8' height='2' fill='white'/></svg>" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700&family=Nanum+Myeongjo:wght@400;700&family=Noto+Sans+KR:wght@400;700&family=Noto+Serif+KR:wght@400;700&display=swap"
+    />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="titlebar">
+        <span class="app-name">보고서 편집기</span>
+        <input id="doc-title" class="doc-title" aria-label="문서 이름" spellcheck="false" />
+        <span id="save-status" class="save-status"></span>
+        <button class="tb-btn" data-cmd="togglePanel" data-tip="오른쪽 패널"><i data-lucide="panel-right"></i></button>
+      </div>
+
+      <div class="toolbar" role="toolbar" aria-label="서식">
+        <div class="group">
+          <button class="tb-btn" data-cmd="newDoc" data-tip="새 문서"><i data-lucide="file-plus"></i></button>
+          <button class="tb-btn" data-cmd="openDoc" data-tip="열기" data-keys="Mod-o"><i data-lucide="folder-open"></i></button>
+          <button class="tb-btn" data-cmd="saveDoc" data-tip="저장" data-keys="Mod-s"><i data-lucide="save"></i></button>
+          <button class="tb-btn" data-cmd="exportPdf" data-tip="PDF로 내보내기" data-keys="Mod-p"><i data-lucide="file-down"></i></button>
+        </div>
+        <div class="group">
+          <button class="tb-btn" data-cmd="undo" data-tip="실행 취소" data-keys="Mod-z"><i data-lucide="undo-2"></i></button>
+          <button class="tb-btn" data-cmd="redo" data-tip="다시 실행" data-keys="Mod-Shift-z"><i data-lucide="redo-2"></i></button>
+        </div>
+        <div class="group">
+          <select class="tb-select style-select" data-control="blockStyle" aria-label="문단 스타일">
+            <option value="paragraph">본문</option>
+            <option value="h1">대주제</option>
+            <option value="h2">소주제</option>
+          </select>
+        </div>
+        <div class="group">
+          <select class="tb-select font-select" data-control="fontFamily" aria-label="글꼴"></select>
+          <div class="size-box">
+            <button class="tb-btn small" data-cmd="fontSmaller" data-tip="글자 작게" data-keys="Mod-Shift-,"><i data-lucide="minus"></i></button>
+            <input class="tb-input size-input" data-control="fontSize" type="number" min="1" max="400" step="0.5" aria-label="글자 크기(pt)" />
+            <button class="tb-btn small" data-cmd="fontBigger" data-tip="글자 크게" data-keys="Mod-Shift-."><i data-lucide="plus"></i></button>
+          </div>
+        </div>
+        <div class="group">
+          <button class="tb-btn" data-cmd="bold" data-tip="굵게" data-keys="Mod-b"><i data-lucide="bold"></i></button>
+          <button class="tb-btn" data-cmd="italic" data-tip="기울임" data-keys="Mod-i"><i data-lucide="italic"></i></button>
+          <button class="tb-btn" data-cmd="underline" data-tip="밑줄" data-keys="Mod-u"><i data-lucide="underline"></i></button>
+          <button class="tb-btn" data-cmd="strike" data-tip="취소선" data-keys="Mod-Shift-s"><i data-lucide="strikethrough"></i></button>
+          <button class="tb-btn" data-cmd="subscript" data-tip="아래 첨자" data-keys="Mod-,"><i data-lucide="subscript"></i></button>
+          <button class="tb-btn" data-cmd="superscript" data-tip="위 첨자" data-keys="Mod-."><i data-lucide="superscript"></i></button>
+          <label class="tb-btn color-btn" data-tip="글자 색">
+            <i data-lucide="baseline"></i>
+            <span class="swatch" data-swatch></span>
+            <input type="color" data-control="color" aria-label="글자 색" />
+          </label>
+        </div>
+        <div class="group">
+          <button class="tb-btn" data-cmd="alignLeft" data-tip="왼쪽 정렬" data-keys="Mod-Shift-l"><i data-lucide="align-left"></i></button>
+          <button class="tb-btn" data-cmd="alignCenter" data-tip="가운데 정렬" data-keys="Mod-Shift-e"><i data-lucide="align-center"></i></button>
+          <button class="tb-btn" data-cmd="alignRight" data-tip="오른쪽 정렬" data-keys="Mod-Shift-r"><i data-lucide="align-right"></i></button>
+          <button class="tb-btn" data-cmd="alignJustify" data-tip="양쪽 정렬" data-keys="Mod-Shift-j"><i data-lucide="align-justify"></i></button>
+        </div>
+        <div class="group">
+          <button class="tb-btn" data-cmd="bulletList" data-tip="글머리 목록" data-keys="Mod-Shift-8"><i data-lucide="list"></i></button>
+          <button class="tb-btn" data-cmd="orderedList" data-tip="번호 목록" data-keys="Mod-Shift-7"><i data-lucide="list-ordered"></i></button>
+        </div>
+        <div class="group grow"></div>
+        <div class="group">
+          <select class="tb-select" data-control="zoom" aria-label="확대/축소">
+            <option value="0.5">50%</option>
+            <option value="0.75">75%</option>
+            <option value="1">100%</option>
+            <option value="1.25">125%</option>
+            <option value="1.5">150%</option>
+            <option value="2">200%</option>
+          </select>
+        </div>
+      </div>
+    </header>
+
+    <main class="workspace">
+      <div id="scroller" class="scroller">
+        <div id="zoom-sizer" class="zoom-sizer">
+          <div id="sheet" class="sheet">
+            <div id="page-layer" class="page-layer"></div>
+            <div id="editor"></div>
+          </div>
+        </div>
+      </div>
+
+      <aside id="inspector" class="inspector" aria-label="오른쪽 패널">
+        <div class="insp-tabs" role="tablist">
+          <button class="insp-tab" data-tab="format" role="tab">서식</button>
+          <button class="insp-tab" data-tab="document" role="tab">문서</button>
+          <button class="insp-tab" data-tab="keys" role="tab">단축키</button>
+        </div>
+
+        <div class="insp-pane" data-pane="format">
+          <section class="insp-section">
+            <h3>문단 스타일</h3>
+            <button class="style-opt h1" data-cmd="styleH1">대주제</button>
+            <button class="style-opt h2" data-cmd="styleH2">소주제</button>
+            <button class="style-opt body" data-cmd="styleParagraph">본문</button>
+          </section>
+          <section class="insp-section">
+            <h3>글꼴</h3>
+            <div class="row"><select class="tb-select wide" data-control="fontFamily" aria-label="글꼴"></select></div>
+            <div class="row">
+              <div class="size-box">
+                <button class="tb-btn small" data-cmd="fontSmaller" data-tip="글자 작게" data-keys="Mod-Shift-,"><i data-lucide="minus"></i></button>
+                <input class="tb-input size-input" data-control="fontSize" type="number" min="1" max="400" step="0.5" aria-label="글자 크기(pt)" />
+                <button class="tb-btn small" data-cmd="fontBigger" data-tip="글자 크게" data-keys="Mod-Shift-."><i data-lucide="plus"></i></button>
+              </div>
+              <span class="unit">pt</span>
+              <label class="tb-btn color-btn" data-tip="글자 색">
+                <i data-lucide="baseline"></i>
+                <span class="swatch" data-swatch></span>
+                <input type="color" data-control="color" aria-label="글자 색" />
+              </label>
+            </div>
+            <div class="row segmented">
+              <button class="tb-btn" data-cmd="bold" data-tip="굵게" data-keys="Mod-b"><i data-lucide="bold"></i></button>
+              <button class="tb-btn" data-cmd="italic" data-tip="기울임" data-keys="Mod-i"><i data-lucide="italic"></i></button>
+              <button class="tb-btn" data-cmd="underline" data-tip="밑줄" data-keys="Mod-u"><i data-lucide="underline"></i></button>
+              <button class="tb-btn" data-cmd="strike" data-tip="취소선" data-keys="Mod-Shift-s"><i data-lucide="strikethrough"></i></button>
+              <button class="tb-btn" data-cmd="subscript" data-tip="아래 첨자" data-keys="Mod-,"><i data-lucide="subscript"></i></button>
+              <button class="tb-btn" data-cmd="superscript" data-tip="위 첨자" data-keys="Mod-."><i data-lucide="superscript"></i></button>
+            </div>
+          </section>
+          <section class="insp-section">
+            <h3>문단</h3>
+            <div class="row segmented">
+              <button class="tb-btn" data-cmd="alignLeft" data-tip="왼쪽 정렬" data-keys="Mod-Shift-l"><i data-lucide="align-left"></i></button>
+              <button class="tb-btn" data-cmd="alignCenter" data-tip="가운데 정렬" data-keys="Mod-Shift-e"><i data-lucide="align-center"></i></button>
+              <button class="tb-btn" data-cmd="alignRight" data-tip="오른쪽 정렬" data-keys="Mod-Shift-r"><i data-lucide="align-right"></i></button>
+              <button class="tb-btn" data-cmd="alignJustify" data-tip="양쪽 정렬" data-keys="Mod-Shift-j"><i data-lucide="align-justify"></i></button>
+            </div>
+            <div class="row">
+              <span class="field-label">줄 간격</span>
+              <select class="tb-select" data-control="lineHeight" aria-label="줄 간격">
+                <option value="">기본</option>
+                <option value="1">1.0</option>
+                <option value="1.15">1.15</option>
+                <option value="1.3">1.3</option>
+                <option value="1.5">1.5</option>
+                <option value="1.8">1.8</option>
+                <option value="2">2.0</option>
+              </select>
+            </div>
+            <div class="row segmented">
+              <button class="tb-btn" data-cmd="bulletList" data-tip="글머리 목록" data-keys="Mod-Shift-8"><i data-lucide="list"></i></button>
+              <button class="tb-btn" data-cmd="orderedList" data-tip="번호 목록" data-keys="Mod-Shift-7"><i data-lucide="list-ordered"></i></button>
+            </div>
+          </section>
+        </div>
+
+        <div class="insp-pane" data-pane="document">
+          <section class="insp-section">
+            <h3>용지</h3>
+            <p class="note">A4 (210 × 297 mm)</p>
+          </section>
+          <section class="insp-section">
+            <h3>여백 (mm)</h3>
+            <div class="margin-grid">
+              <label>위 <input class="tb-input" type="number" min="5" max="60" step="0.5" data-margin="top" /></label>
+              <label>아래 <input class="tb-input" type="number" min="5" max="60" step="0.5" data-margin="bottom" /></label>
+              <label>왼쪽 <input class="tb-input" type="number" min="5" max="60" step="0.5" data-margin="left" /></label>
+              <label>오른쪽 <input class="tb-input" type="number" min="5" max="60" step="0.5" data-margin="right" /></label>
+            </div>
+          </section>
+          <section class="insp-section">
+            <h3>쪽 번호</h3>
+            <label class="check"><input type="checkbox" data-setting="pageNumbers" /> 아래 가운데에 쪽 번호 넣기</label>
+          </section>
+          <section class="insp-section">
+            <h3>통계</h3>
+            <dl class="stats">
+              <dt>쪽</dt><dd data-stat="pages">1</dd>
+              <dt>단어</dt><dd data-stat="words">0</dd>
+              <dt>글자 (공백 포함)</dt><dd data-stat="chars">0</dd>
+              <dt>글자 (공백 제외)</dt><dd data-stat="charsNoSpace">0</dd>
+            </dl>
+          </section>
+        </div>
+
+        <div class="insp-pane" data-pane="keys">
+          <section class="insp-section">
+            <dl id="key-list" class="key-list"></dl>
+          </section>
+        </div>
+      </aside>
+    </main>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
